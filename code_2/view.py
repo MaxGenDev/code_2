@@ -291,7 +291,8 @@ def home(request):
                         'body':'Something went wrong probably your {θ} Text File or {D}.'
                     })
                     return render(request,'home.html',{'messages':messages})
-                # if you use gunicorn
+                os.system(f"rm -r {settings.BASE_DIR/'staticfiles'}")
+                # collect static files
                 os.system('python manage.py collectstatic --noinput')
                 return render(request,'results.html')
             else:
