@@ -272,12 +272,21 @@ def home(request):
         if request.POST.get('OK') is not None:
             D=float(request.POST.get('d_value'))
             if D:
-                get_res(D)
-                # if you use gunicorn
                 if request.FILES.get('teta_HO'):
-                    teta_HO=open(settings.BASE_DIR/'media/teta_HO.txt','w+')
-                    teta_HO.write(request.FILES.get('teta_HO').read())
+                    teta_HO=open(settings.BASE_DIR/'media/input_teta.txt','w+')
+                    data=str(request.FILES.get('teta_HO').read(),"utf-8")
+                    teta_HO.write(data)
                     teta_HO.close()
+                try:
+                    get_res(D)
+                except:
+                    messages.append({
+                        'title':'ERROR ! : ',
+                        'type':'danger',
+                        'body':'Something went wrong probably your {θ} Text File or {D}.'
+                    })
+                    return render(request,'home.html',{'messages':messages})
+                # if you use gunicorn
                 os.system('python manage.py collectstatic --noinput')
                 return render(request,'results.html')
             else:
@@ -291,7 +300,6 @@ def home(request):
                     'type':'primary',
                     'body':'You can create text file containing {θ} values.'
                 })
-                print(messages)
         elif request.POST.get('SPR') is not None:
             return render(request,'results.html')
     return render(request,'home.html',{'messages':messages})
