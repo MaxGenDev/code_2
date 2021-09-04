@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from scipy import interpolate
 from django.shortcuts import render
 from django.conf import settings
-from time import sleep
 def get_res(D_o: float):
     for i in range(1,7):
         plt.figure(i)
@@ -294,8 +293,10 @@ def home(request):
                     return render(request,'home.html',{'messages':messages})
                 os.system(f"rm -r {settings.BASE_DIR/'staticfiles'}")
                 # collect static files
-                os.system('python3 manage.py collectstatic --noinput')
-                sleep(1)
+                if 'code_2' in os.getcwd():
+                    os.system('python3 code_2/manage.py collectstatic --noinput')
+                else:
+                    os.system('python3 code_2/manage.py collectstatic --noinput')
                 return render(request,'results.html')
             else:
                 messages.append({
