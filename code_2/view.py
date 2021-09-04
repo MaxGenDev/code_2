@@ -293,7 +293,11 @@ def home(request):
                     return render(request,'home.html',{'messages':messages})
                 os.system(f"rm -r {settings.BASE_DIR/'staticfiles'}")
                 # collect static files
-                os.system(f"python {settings.BASE_DIR/'manage.py'} collectstatic --noinput")
+                # os.system(f"python {settings.BASE_DIR/'manage.py'} collectstatic --noinput")
+                # this for pythonanywhere
+                # os.system(
+                #     "/home/MaxGenDev/.virtualenvs/mysite-virtualenv/bin/python "
+                #     f"{settings.BASE_DIR/'manage.py'} collectstatic --noinput")
                 return render(request,'results.html')
             else:
                 messages.append({
