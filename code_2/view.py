@@ -273,6 +273,11 @@ def home(request):
             D=float(request.POST.get('d_value'))
             if D:
                 get_res(D)
+                # if you use gunicorn
+                if request.FILES.get('teta_HO'):
+                    teta_HO=open(settings.BASE_DIR/'media/teta_HO.txt','w+')
+                    teta_HO.write(request.FILES.get('teta_HO').read())
+                    teta_HO.close()
                 os.system('python manage.py collectstatic --noinput')
                 return render(request,'results.html')
             else:
