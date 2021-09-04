@@ -6,6 +6,10 @@ from scipy import interpolate
 from django.shortcuts import render
 from django.conf import settings
 def get_res(D_o: float):
+    for i in range(1,7):
+        plt.figure(i)
+        plt.cla()
+        plt.clf()
     teta_HO=[]
     input_teta_txt=open(settings.STATICFILES_DIRS[1]/'input_teta.txt','r+')
     for num in input_teta_txt.readlines():
@@ -151,6 +155,9 @@ def get_res(D_o: float):
     x0=0
     xf=-1306.5
 
+    # plot in figure 1
+    plt.figure(1)
+
     for kk in range(size_teta):
         sc0=np.linspace(x0,int(xf*10),int(abs(xf*2)+1))/10  # Common Inteval for sc
         x1=coor1[:,kk]
@@ -170,12 +177,13 @@ def get_res(D_o: float):
         coor2_new=np.array([[0.0]*size_teta]*len(sc0))
         coor1_new[:,0]=sc0
         coor2_new[:,kk]=f_xz(sc0)
-        plt.legend(str(kk))
-        plt.figure(1)
         plt.plot(coor1_new[:,0],coor2_new[:,kk])
         plt.xlabel('H Coor')
         plt.ylabel('V Coor')
-        plt.savefig(settings.STATICFILES_DIRS[1]/'fig_1.png')
+    # add legend to figure
+    plt.legend(range(1,size_teta+1))
+    # save the figure Output to an image file
+    plt.savefig(settings.STATICFILES_DIRS[1]/'fig_1.png')
 
     # Just to see the comparing plot:    # just for test,
     plt.figure(2)
@@ -240,7 +248,6 @@ def get_res(D_o: float):
         plt.plot(Arc_L_new[:,0],mom_fin_new[:,jj])
         plt.xlabel('L')
         plt.ylabel('Mom')
-        plt.legend(str(jj))
         plt.savefig(settings.STATICFILES_DIRS[1]/'fig_3.png')
         # Third main plot:
         plt.figure(4)
@@ -249,12 +256,10 @@ def get_res(D_o: float):
         plt.ylabel('Sig')
         plt.savefig(settings.STATICFILES_DIRS[1]/'fig_4.png')
 
-    plt.legend(str(jj))
     plt.figure(3)
     plt.legend(range(1,size_teta+1))
     plt.savefig(settings.STATICFILES_DIRS[1]/'fig_3.png')
 
-    plt.legend(str(jj))
     plt.figure(4)
     plt.legend(range(1,size_teta+1))
     plt.savefig(settings.STATICFILES_DIRS[1]/'fig_4.png')
