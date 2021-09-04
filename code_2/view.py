@@ -295,9 +295,9 @@ def home(request):
                 # collect static files
                 # os.system(f"python {settings.BASE_DIR/'manage.py'} collectstatic --noinput")
                 # this for pythonanywhere
-                # os.system(
-                #     "/home/MaxGenDev/.virtualenvs/mysite-virtualenv/bin/python "
-                #     f"{settings.BASE_DIR/'manage.py'} collectstatic --noinput")
+                os.system(
+                    "/home/MaxGenDev/.virtualenvs/mysite-virtualenv/bin/python "
+                    f"{settings.BASE_DIR/'manage.py'} collectstatic --noinput")
                 return render(request,'results.html')
             else:
                 messages.append({
